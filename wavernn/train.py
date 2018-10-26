@@ -142,9 +142,18 @@ def _train(model, dataset, test_ids, optimiser, epochs, batch_size, classes, seq
         # generate sample
         if e % 20 == 0:
             _generate(model=model, step=step, test_ids=test_ids, samples=1)
+            # backup
+            backup_model = '{}_{}epoch.pyt'.format(MODEL_PATH.split('.')[0], e)
+            backup_step = '{}_{}epoch.npy'.format(STEP_PATH('.')[0], e)
+            torch.save(model.state_dict(), backup_model)
+            np.save(backup_step, [step])
 
+        # overwrite
         torch.save(model.state_dict(), MODEL_PATH)
         np.save(STEP_PATH, [step])
+
+
+
         print(' <saved>')
 
 
